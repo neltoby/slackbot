@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  bot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: dev
+    image: slackbot:v1.0
+    container_name: slackbot-dev
+    restart: always
+    env_file: .env
+    environment:
+      - MONGO_USERNAME=$MONGO_USERNAME
+      - MONGO_PASSWORD=$MONGO_PASSWORD
+      - MONGO_HOSTNAME=mongodb
+      - MONGO_PORT=$MONGO_PORT
+      - MONGO_DB=$MONGO_DB
+      - REDIS_PORT=$REDIS_PORT
+      - REDIS_HOSTNAME=$REDIS_HOSTNAME
+      - REDIS_PASSWORD=$REDIS_PASSWORD
+      - MONGO_URI=$MONGO_URI
+    ports:
+      - 8000:8000
+    depends_on:
+      - mongodb
+      - redis
+    volumes: 
+      - .:/slack
+      - node_modules:/slack/node_modules
+    networks:
+      - slack-mongo
+    command: node_modules/.bin/nodemon -L ./bin/www
+    # command: sh -c "/wait && node_modules/.bin/nodemon -L ./bin/www"
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    restart: always
+    ports:
+      - 27017:27017
+    volumes: 
+      - mongodata:/data/db
+    networks:
+      - slack-mongo
+  redis:
+    image: redis
+    container_name: redis
+    networks:
+      - slack-mongo
+    ports:
+      - 6379:6379
+networks: 
+  slack-mongo:
+    driver: bridge
+volumes:
+  mongodata:
+  node_modules:
+        

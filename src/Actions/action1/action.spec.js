@@ -1,0 +1,30 @@
+const { makeAction1Fxn } = require('.')
+const { client, getAsync, setAsync } = require('../../util/Redis-Client')
+const { eventaction } = require('../../../__test__/actions')
+
+describe('action1', () => {
+
+    test('instantiated class', async () => {
+        const fakeAction = eventaction({})
+        const newAxn = await makeAction1Fxn(fakeAction)
+        expect(newAxn.getChannel).toHaveProperty('id')
+        expect(newAxn.getChannel).toHaveProperty('name')
+        expect(newAxn.getTriggerId).toBeDefined()
+        expect(newAxn.getUser).toHaveProperty('id')
+        expect(newAxn.getUser).toHaveProperty('name')
+        expect(newAxn.getUser).toHaveProperty('username')
+        expect(newAxn.getUser).toHaveProperty('team_id')
+        expect(newAxn.getActions).toHaveProperty('type')
+        expect(newAxn.getActions).toHaveProperty('action_id')
+        expect(newAxn.getActions).toHaveProperty('block_id')
+        expect(newAxn.getActions).toHaveProperty('selected_option')
+        expect(newAxn.getActions).toHaveProperty('placeholder')
+        expect(newAxn.getActions).toHaveProperty('action_ts')
+        expect(newAxn.getSelected).not.toBeNull()
+        expect(newAxn.getQuestion).not.toBeNull()
+        expect(newAxn.getRetVal).toHaveProperty('channel')
+        expect(newAxn.getRetVal).toHaveProperty('blocks')
+        expect(newAxn.getRetVal.blocks[0].block_id).toBe('actions_2')
+    })
+
+})
