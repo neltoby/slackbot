@@ -6,8 +6,6 @@ const apiRoot = process.env.API_ROOT;
 
 const postModal = async response => {
     try{
-        console.log(response, 'line 9')
-
         const data = JSON.stringify(response)
 
         const config = {
@@ -17,9 +15,7 @@ const postModal = async response => {
             }
         }
 
-        const res = await axios.post('https://slack.com/api/views.open', data, config)
-        console.log(`statusCode: ${res.status}`)
-        console.log(res.data)   
+        const res = await axios.post('https://slack.com/api/views.open', data, config) 
     }catch(error) {
         logger.error(
             error

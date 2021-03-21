@@ -1,4 +1,4 @@
-require('dotenv').config();
+require('./dotenv')();
 const express = require('express');
 const redisClient = require('./src/util/Redis-Client');
 const { json, urlencoded } = require('body-parser');

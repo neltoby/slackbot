@@ -4,7 +4,6 @@ const { postModal } = require('./modal')
 const app = () => {}
 
 const apiDispatcher = async  (response) => {
-  console.log(response)
   if(response.blocks){
     return await postChat(response)
   }else{
